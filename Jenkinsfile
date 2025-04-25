@@ -25,11 +25,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                bat "docker build -t %ACR_LOGIN_SERVER%/%IMAGE_NAME%:%IMAGE_TAG% ."
-            }
-        }
+        
         stage('Terraform Init') {
             steps {
                 withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
@@ -63,6 +59,11 @@ pipeline {
             echo "Applying Terraform Plan..."
             terraform apply -auto-approve tfplan
             """}
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                bat "docker build -t %ACR_LOGIN_SERVER%/%IMAGE_NAME%:%IMAGE_TAG% ."
             }
         }
         stage('Login to ACR') {
