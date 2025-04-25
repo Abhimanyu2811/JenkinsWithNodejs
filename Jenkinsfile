@@ -28,6 +28,7 @@ pipeline {
                 bat "docker build -t %ACR_LOGIN_SERVER%/%IMAGE_NAME%:%IMAGE_TAG% ."
             }
         }
+        }
 
        stage('Terraform Init') {
             steps {
@@ -43,7 +44,7 @@ pipeline {
         }
 
         stage('Terraform Plan') {
-    steps {
+        steps {
         withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
             bat """
             echo "Navigating to Terraform Directory: %TF_WORKING_DIR%"
@@ -51,12 +52,12 @@ pipeline {
             terraform plan -out=tfplan
             """
         }
-    }
+    
 }
 
 
         stage('Terraform Apply') {
-    steps {
+        steps {
         withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
             bat """
             echo "Navigating to Terraform Directory: %TF_WORKING_DIR%"
@@ -87,11 +88,11 @@ pipeline {
 
         stage('Deploy to AKS') {
             steps {
-                bat "kubectl apply -f To-do-list-main/Test.yaml"
+                bat "kubectl apply -f WebApiJenkins/test.yaml"
             }
         }
     }
-
+        
     post {
         success {
             echo 'All stages completed successfully!'
