@@ -20,7 +20,9 @@ pipeline {
         }
         stage('Install Node.js Dependencies') {
             steps {
+                dir('To-Do-List'){
                 bat 'npm install'
+                }
             }
         }
         stage('Build Docker Image') {
