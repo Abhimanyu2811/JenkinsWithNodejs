@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Install Node.js Dependencies') {
             steps {
-                dir('To-Do-List'){
+                dir('To-do-list-main'){
                 bat 'npm install'
                 }
             }
