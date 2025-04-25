@@ -22,15 +22,13 @@ pipeline {
             steps {
                 bat 'npm install'
             }
-
+        }
         stage('Build Docker Image') {
             steps {
                 bat "docker build -t %ACR_LOGIN_SERVER%/%IMAGE_NAME%:%IMAGE_TAG% ."
             }
         }
-        }
-
-       stage('Terraform Init') {
+        stage('Terraform Init') {
             steps {
                 withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
                     bat """
@@ -52,10 +50,8 @@ pipeline {
             terraform plan -out=tfplan
             """
         }
-    
-}
-
-
+        }
+        }
         stage('Terraform Apply') {
         steps {
         withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
@@ -64,10 +60,9 @@ pipeline {
             cd %TF_WORKING_DIR%
             echo "Applying Terraform Plan..."
             terraform apply -auto-approve tfplan
-            """
+            """}
+            }
         }
-    }
-}
         stage('Login to ACR') {
             steps {
                 bat "az acr login --name %ACR_NAME%"
@@ -101,5 +96,4 @@ pipeline {
             echo 'Build failed.'
         }
     }
-}
 }
