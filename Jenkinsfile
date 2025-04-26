@@ -8,7 +8,7 @@ pipeline {
         IMAGE_NAME = 'nodejsdocker1'
         IMAGE_TAG = 'latest'
         RESOURCE_GROUP = 'myResourceGroup'
-        AKS_CLUSTER = 'abhimanyuAKSCluster'
+        AKS_CLUSTER = 'myAKSCluster01'
         TF_WORKING_DIR = '.'
     }
 
