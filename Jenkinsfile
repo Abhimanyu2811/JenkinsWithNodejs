@@ -63,7 +63,9 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
+                dir('To-do-list-main'){
                 bat "docker build -t %ACR_LOGIN_SERVER%/%IMAGE_NAME%:%IMAGE_TAG% ."
+                }
             }
         }
         stage('Login to ACR') {
@@ -86,7 +88,9 @@ pipeline {
 
         stage('Deploy to AKS') {
             steps {
-                bat "kubectl apply -f WebApiJenkins/test.yaml"
+                dir('To-do-list-main'){
+                bat "kubectl apply -f Test.yaml"
+                }
             }
         }
     }
