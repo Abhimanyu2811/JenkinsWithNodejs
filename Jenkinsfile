@@ -2,20 +2,20 @@ pipeline {
     agent any
 
     environment {
-        ACR_NAME = 'acrrathore01'
-        AZURE_CREDENTIALS_ID = 'jenkins-pipeline-sp'
+        ACR_NAME = 'acrabhimanyu'
+        AZURE_CREDENTIALS_ID = 'jenkins-pipeline-asp'
         ACR_LOGIN_SERVER = "${ACR_NAME}.azurecr.io"
         IMAGE_NAME = 'nodejsdocker1'
         IMAGE_TAG = 'latest'
-        RESOURCE_GROUP = 'rathoreResourceGroup'
-        AKS_CLUSTER = 'rathoreAKSCluster'
+        RESOURCE_GROUP = 'myResourceGroup'
+        AKS_CLUSTER = 'abhimanyuAKSCluster'
         TF_WORKING_DIR = '.'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Aryan-Raj-Singh-Rathore/JenkinsWithNodejs.git'
+                git branch: 'main', url: 'https://github.com/Abhimanyu2811/JenkinsWithNodejs.git'
             }
         }
         stage('Install Node.js Dependencies') {
