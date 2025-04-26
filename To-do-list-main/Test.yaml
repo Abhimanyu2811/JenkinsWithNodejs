@@ -1,34 +1,19 @@
-name: Node.js CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run lint
-        run: npm run lint
-
-      - name: Run tests
-        run: npm test
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodejs-ci-test
+spec:
+  containers:
+    - name: nodejs
+      image: node:20
+      command: ["sh", "-c", "npm install && npm run lint && npm test"]
+      volumeMounts:
+        - name: app-code
+          mountPath: /usr/src/app
+      workingDir: /usr/src/app
+  restartPolicy: Never
+  volumes:
+    - name: app-code
+      hostPath:
+        path: /path/to/your/app
+        type: Directory
